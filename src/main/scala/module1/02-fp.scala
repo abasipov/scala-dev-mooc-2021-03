@@ -165,7 +165,25 @@ object hof{
       case Option.None => Option.None
     }
 
-    def flatMap[B](f: A => Option[B]): Option[B] = ???
+    def flatMap[B](f: A => Option[B]): Option[B] = this match {
+      case Option.Some(v) => f(v)
+      case Option.None => Option.None
+    }
+
+    def printIfAny(): Unit = this match {
+      case Option.Some(v) => print(v)
+      case Option.None => ()
+    }
+
+    def filter(f: A => Boolean): Option[A] = this match {
+      case Option.Some(v) if f(v) => this
+      case _ => Option.None
+    }
+
+    def zip[B](that: Option[B]): Option[(A, B)] = (this, that) match {
+      case (Option.Some(v1), Option.Some(v2)) => Option.Some((v1, v2))
+      case _ => Option.None
+    }
 
     // val i : Option[Int]  i.map(v => v + 1)
 
